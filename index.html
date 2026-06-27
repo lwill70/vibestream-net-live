@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VibeStream | Creator Streaming Dashboard</title>
+  <title>VibeStream | Music Streaming & Live Creator Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Oxanium:wght@500;700;800&display=swap" rel="stylesheet" />
@@ -22,7 +22,7 @@
         </div>
         <div>
           <p class="brand-name">VIBESTREAM</p>
-          <p class="brand-sub">Creative Pulse Network</p>
+          <p class="brand-sub">Music • Live • Releases</p>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
 
       <div class="community-card">
         <p>Creator Support Tier</p>
-        <span>Core streaming stays free forever. Optional support unlocks higher limits.</span>
+        <span>Stream tracks, go live, and publish full releases from one creator-ready dashboard.</span>
         <button type="button" id="communityShare">Upgrade Now</button>
       </div>
     </aside>
@@ -58,7 +58,7 @@
         <button class="mobile-menu" id="menuToggle" aria-label="Toggle menu">Menu</button>
 
         <label class="search-wrap" for="searchInput">
-          <input id="searchInput" type="search" placeholder="Search for music, videos, movies, series, graphics and more..." autocomplete="off" />
+          <input id="searchInput" type="search" placeholder="Search songs, albums, live sets, podcasts, videos, movies and more..." autocomplete="off" />
         </label>
 
         <div class="top-actions">
@@ -72,20 +72,31 @@
 
       <section class="hero-grid">
         <article class="hero-banner reveal">
-          <p class="overline">Welcome to</p>
+          <p class="overline">Creator control center</p>
           <h1>VIBESTREAM</h1>
-          <p>Stream, Download, Upload, Sell and Advertise. Everything you love, one platform.</p>
+          <p>Stream music, go live, and publish singles, EPs, albums, mixtapes, podcasts, videos, and live sessions from one polished creator platform.</p>
+          <div class="hero-pills" aria-label="Platform highlights">
+            <span>Music streaming</span>
+            <span>Live broadcasts</span>
+            <span>Structured releases</span>
+            <span>Creator analytics</span>
+          </div>
           <div class="hero-cta">
             <button class="btn-primary" id="playFeatured">Start Streaming</button>
-            <button class="btn-outline" id="uploadOpen">Upload Content</button>
+            <button class="btn-outline" id="uploadOpen">Publish Release</button>
           </div>
           <div class="hero-person" aria-hidden="true"></div>
         </article>
 
         <article class="hero-ad reveal delay-1">
-          <h2>Advertise Your Business Here</h2>
-          <p>Reach thousands of active audience daily with one campaign.</p>
-          <button class="btn-primary" id="joinSpotlight">Advertise Now</button>
+          <h2>Release Planner</h2>
+          <p>Launch a single tonight, queue an EP for the weekend, or schedule a live listening party with creator-friendly tools.</p>
+          <ul class="hero-list">
+            <li>Singles, EPs, albums, mixtapes</li>
+            <li>Live sessions, podcasts, music videos</li>
+            <li>Movie and series drops when needed</li>
+          </ul>
+          <button class="btn-primary" id="joinSpotlight">Open Release Planner</button>
         </article>
       </section>
 
@@ -122,6 +133,43 @@
               <option value="mixed">Camera + Screen</option>
             </select>
           </label>
+          <label>
+            Broadcast Type
+            <select id="streamCategory">
+              <option value="music stream" selected>Music Stream</option>
+              <option value="live broadcast">Live Broadcast</option>
+              <option value="listening party">Listening Party</option>
+              <option value="studio session">Studio Session</option>
+              <option value="artist q&a">Artist Q&amp;A</option>
+            </select>
+          </label>
+          <label>
+            Schedule Slot
+            <select id="schedulePreset">
+              <option value="in 1 hour" selected>In 1 hour</option>
+              <option value="tonight 8pm">Tonight 8PM</option>
+              <option value="tomorrow 6pm">Tomorrow 6PM</option>
+              <option value="friday premiere">Friday Premiere</option>
+            </select>
+          </label>
+        </div>
+        <div class="stream-summary" id="streamSummary">
+          <article class="summary-card">
+            <span>Live badge</span>
+            <strong id="liveBadgeLabel">Offline</strong>
+          </article>
+          <article class="summary-card">
+            <span>Broadcast</span>
+            <strong id="streamCategoryLabel">Music Stream</strong>
+          </article>
+          <article class="summary-card">
+            <span>Viewers</span>
+            <strong id="viewerSummary">0 waiting</strong>
+          </article>
+          <article class="summary-card">
+            <span>Schedule</span>
+            <strong id="scheduleSummary">Ready now</strong>
+          </article>
         </div>
         <div class="streaming-actions">
           <button class="btn-primary" id="goLiveBtn">Go Live</button>
@@ -136,6 +184,7 @@
             <div class="screen-status" id="screenStatusBadge">OFFLINE</div>
             <h3 id="screenTitle">No stream selected</h3>
             <p id="screenMeta">Select a stream from the feed.</p>
+            <p class="screen-supporting" id="screenSupport">Choose a music release or live broadcast to preview its details here.</p>
           </article>
 
           <section class="section-head compact">
@@ -149,7 +198,7 @@
         <aside class="comments-panel">
           <header class="comments-head">
             <h3>Live Comments</h3>
-            <p>React with Like, Fire, or Love</p>
+            <p>Chat with listeners tuning in for music drops, premieres, and live shows.</p>
           </header>
           <div class="comments-list" id="commentsList"></div>
           <form id="commentForm" class="comment-form">
@@ -162,7 +211,7 @@
       <div class="workspace-grid">
         <section class="feed-column">
           <section class="section-head">
-            <h2>Trending Now</h2>
+            <h2>Discover on VibeStream</h2>
             <div class="head-controls">
               <div id="filterChips" class="chips"></div>
               <button class="btn-link" id="clearFilters">View All</button>
@@ -171,7 +220,7 @@
           <section id="trendingGrid" class="card-grid"></section>
 
           <section class="section-head compact">
-            <h2>Latest Uploads</h2>
+            <h2>Latest Releases</h2>
             <button class="btn-link" id="toggleUploads">View All</button>
           </section>
           <section id="latestStrip" class="upload-strip"></section>
@@ -200,6 +249,22 @@
             <ol id="playlistList" class="rank-list"></ol>
           </section>
 
+          <section class="widget reveal delay-3">
+            <header>
+              <h3>Release Formats</h3>
+            </header>
+            <div class="release-guide">
+              <span>Single</span>
+              <span>EP</span>
+              <span>Album</span>
+              <span>Mixtape</span>
+              <span>Live Session</span>
+              <span>Podcast</span>
+              <span>Music Video</span>
+              <span>Movie / Series</span>
+            </div>
+          </section>
+
           <section class="widget reveal delay-4">
             <header>
               <h3>Watch Queue</h3>
@@ -222,8 +287,8 @@
   <dialog id="uploadDialog">
     <form id="uploadForm" method="dialog">
       <header class="upload-header">
-        <h3>Upload New Content</h3>
-        <p>Fill details below, then publish to add content to your dashboard.</p>
+        <h3>Publish New Release</h3>
+        <p>Add music metadata, choose a release format, and publish instantly to your VibeStream dashboard.</p>
       </header>
 
       <section class="upload-grid">
@@ -237,14 +302,28 @@
             Category
             <select name="category" required>
               <option value="music">Music</option>
+              <option value="podcast">Podcast</option>
+              <option value="live set">Live Session</option>
               <option value="music video">Music Video</option>
               <option value="videos">Video</option>
               <option value="movie">Movie</option>
-              <option value="mixtape">Mixtape</option>
               <option value="series">Series</option>
               <option value="graphics">Graphics</option>
-              <option value="podcast">Podcast</option>
               <option value="other">Other</option>
+            </select>
+          </label>
+          <label>
+            Release Type
+            <select name="releaseType" required>
+              <option value="single" selected>Single</option>
+              <option value="ep">EP</option>
+              <option value="album">Album</option>
+              <option value="mixtape">Mixtape</option>
+              <option value="live session">Live Session</option>
+              <option value="podcast">Podcast</option>
+              <option value="music video">Music Video</option>
+              <option value="movie">Movie</option>
+              <option value="series">Series</option>
             </select>
           </label>
           <label>
@@ -266,22 +345,40 @@
             <input name="customCategory" maxlength="30" placeholder="e.g. documentary, live set" />
           </label>
           <label>
+            Track / Song Count
+            <input name="trackCount" type="number" min="1" max="60" step="1" value="1" />
+          </label>
+          <label>
+            Cover Theme
+            <select name="theme">
+              <option value="neon pulse" selected>Neon Pulse</option>
+              <option value="sunset glow">Sunset Glow</option>
+              <option value="midnight stage">Midnight Stage</option>
+              <option value="cinema noir">Cinema Noir</option>
+              <option value="clean minimal">Clean Minimal</option>
+            </select>
+          </label>
+          <label>
             Creator Name
             <input name="creator" required placeholder="Your stage name" />
           </label>
         </div>
 
         <div class="upload-section">
-          <h4>Bulk Upload Tools</h4>
+          <h4>Batch Release Builder</h4>
           <label>
-            Multiple Upload Titles (optional)
-            <textarea name="bulkTitles" rows="5" placeholder="Paste one title per line to upload many items at once"></textarea>
+            Tracklist / Episode Titles (optional)
+            <textarea name="bulkTitles" rows="5" placeholder="Paste one track or episode title per line for your EP, album, mixtape, podcast, or video batch"></textarea>
           </label>
           <label>
             Upload Audio/Video Files (optional)
             <input type="file" name="mediaFiles" id="mediaFiles" accept="audio/*,video/*" multiple />
           </label>
-          <p class="field-note">Pick files in multiple rounds. New selections are added to the queue.</p>
+          <p class="field-note">Pick files in multiple rounds. New selections are added to the queue so you can build structured releases at your own pace.</p>
+          <div class="batch-hint">
+            <strong>Best for:</strong>
+            <span>Singles, EPs, albums, mixtapes, live sessions, podcasts, and season drops.</span>
+          </div>
         </div>
       </section>
 
