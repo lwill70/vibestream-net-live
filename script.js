@@ -22,6 +22,7 @@ const VALID_CATEGORIES = new Set([
 	"podcast",
 	"documentary",
 	"live set",
+	"live session",
 	"series",
 	"graphics",
 	"movie",
@@ -29,6 +30,20 @@ const VALID_CATEGORIES = new Set([
 	"music videos",
 	"music video",
 	"product",
+	"other",
+]);
+
+const VALID_RELEASE_TYPES = new Set([
+	"single",
+	"ep",
+	"album",
+	"mixtape",
+	"live session",
+	"podcast",
+	"music video",
+	"movie",
+	"series",
+	"video",
 	"other",
 ]);
 
@@ -47,52 +62,121 @@ const VALID_GENRES = new Set([
 const VALID_STREAM_QUALITY = new Set(["360p", "720p", "1080p", "4k"]);
 const VALID_STREAM_MODE = new Set(["public", "unlisted", "private"]);
 const VALID_STREAM_SOURCE = new Set(["camera", "screen", "mixed"]);
+const VALID_STREAM_CATEGORIES = new Set([
+	"music stream",
+	"live broadcast",
+	"listening party",
+	"studio session",
+	"artist q&a",
+]);
 const VALID_REACTIONS = ["like", "fire", "love"];
+const VALID_THEMES = new Set([
+	"neon pulse",
+	"sunset glow",
+	"midnight stage",
+	"cinema noir",
+	"clean minimal",
+]);
+
+const THEME_PALETTES = {
+	"neon pulse": "linear-gradient(140deg, #1f71ff, #7e39ff)",
+	"sunset glow": "linear-gradient(140deg, #ff7b45, #ff2f7f)",
+	"midnight stage": "linear-gradient(140deg, #0d254f, #101b36)",
+	"cinema noir": "linear-gradient(140deg, #5f2938, #121826)",
+	"clean minimal": "linear-gradient(140deg, #3568b5, #1f2d4f)",
+};
+
+const LABEL_OVERRIDES = {
+	ep: "EP",
+	"artist q&a": "Artist Q&A",
+	"live set": "Live Set",
+};
 
 const DEFAULT_MEDIA = [
-	{ id: "m1", title: "Neon Skyline", creator: "DJ Maphorisa", category: "music", views: "24.5K", palette: "linear-gradient(140deg, #2e7bff, #8f3cff)" },
-	{ id: "m2", title: "Street Vibes 3", creator: "DJ Flexy", category: "mixtape", views: "18.7K", palette: "linear-gradient(140deg, #1469ff, #10307f)" },
-	{ id: "m3", title: "Blood Covenant", creator: "Vibe Pictures", category: "movie", views: "35.6K", palette: "linear-gradient(140deg, #7d2a20, #25152f)" },
-	{ id: "m4", title: "Last City", creator: "Core Frame", category: "series", views: "29.1K", palette: "linear-gradient(140deg, #1f3d6d, #0c141f)" },
-	{ id: "m5", title: "Forever", creator: "Rex V", category: "music video", views: "22.8K", palette: "linear-gradient(140deg, #641d28, #1e182f)" },
-	{ id: "m6", title: "Free Cover Pack", creator: "Design Hive", category: "graphics", views: "8.3K", palette: "linear-gradient(140deg, #8f6b2f, #1a1e38)" },
-	{ id: "m7", title: "Vibe Hoodie", creator: "Street Wear", category: "product", views: "13.4K", palette: "linear-gradient(140deg, #2f3a54, #121826)" },
-	{ id: "m8", title: "Pulse Mix 2026", creator: "VisionGFX", category: "music", views: "17.9K", palette: "linear-gradient(140deg, #0e66a8, #2a1655)" },
+	{ id: "m1", title: "After Midnight", creator: "Ayo Luna", category: "music", releaseType: "single", trackCount: 1, theme: "neon pulse", genre: "amapiano", views: "42.1K", palette: "linear-gradient(140deg, #2e7bff, #8f3cff)" },
+	{ id: "m2", title: "Johannesburg Sunrise", creator: "Sena Wave", category: "music", releaseType: "ep", trackCount: 5, theme: "sunset glow", genre: "afrobeats", views: "28.4K", palette: "linear-gradient(140deg, #ff7b45, #ff2f7f)" },
+	{ id: "m3", title: "Street Sermons Vol. 2", creator: "DJ Flexy", category: "music", releaseType: "mixtape", trackCount: 12, theme: "midnight stage", genre: "hip hop", views: "31.8K", palette: "linear-gradient(140deg, #1469ff, #10307f)" },
+	{ id: "m4", title: "Pulse Theory", creator: "Nandi Rose", category: "music", releaseType: "album", trackCount: 14, theme: "clean minimal", genre: "r&b", views: "36.2K", palette: "linear-gradient(140deg, #2b91d1, #26426b)" },
+	{ id: "m5", title: "Roofside Live", creator: "The Vibe Room", category: "live set", releaseType: "live session", trackCount: 7, theme: "midnight stage", genre: "dancehall", views: "19.9K", palette: "linear-gradient(140deg, #1b4d8c, #371f66)" },
+	{ id: "m6", title: "Night Shift Radio", creator: "Kasi Talks", category: "podcast", releaseType: "podcast", trackCount: 8, theme: "clean minimal", genre: "podcast", views: "15.3K", palette: "linear-gradient(140deg, #0e66a8, #2a1655)" },
+	{ id: "m7", title: "Forever Loop", creator: "Rex V", category: "music video", releaseType: "music video", trackCount: 1, theme: "cinema noir", genre: "r&b", views: "22.8K", palette: "linear-gradient(140deg, #641d28, #1e182f)" },
+	{ id: "m8", title: "Signal Fade", creator: "Vibe Pictures", category: "movie", releaseType: "movie", trackCount: 1, theme: "cinema noir", genre: "cinematic", views: "35.6K", palette: "linear-gradient(140deg, #7d2a20, #25152f)" },
+	{ id: "m9", title: "Last City: Season One", creator: "Core Frame", category: "series", releaseType: "series", trackCount: 10, theme: "midnight stage", genre: "cinematic", views: "29.1K", palette: "linear-gradient(140deg, #1f3d6d, #0c141f)" },
+	{ id: "m10", title: "Free Cover Pack", creator: "Design Hive", category: "graphics", releaseType: "other", trackCount: 1, theme: "clean minimal", genre: "other", views: "8.3K", palette: "linear-gradient(140deg, #8f6b2f, #1a1e38)" },
 ];
 
 const DEFAULT_UPLOADS = [
-	{ title: "Summer Fever", creator: "Jay Melody", createdAt: Date.now() - 2 * 60 * 60 * 1000 },
-	{ title: "The Equalizer 3", creator: "Action Vault", createdAt: Date.now() - 4 * 60 * 60 * 1000 },
-	{ title: "Logo Design Pack", creator: "VisionGFX", createdAt: Date.now() - 6 * 60 * 60 * 1000 },
-	{ title: "No Love", creator: "Official V", createdAt: Date.now() - 9 * 60 * 60 * 1000 },
-	{ title: "V-Lone Tee", creator: "Street Wear", createdAt: Date.now() - 8 * 60 * 60 * 1000 },
+	{ title: "After Midnight", creator: "Ayo Luna", releaseType: "single", category: "music", genre: "amapiano", trackCount: 1, theme: "neon pulse", createdAt: Date.now() - 2 * 60 * 60 * 1000 },
+	{ title: "Johannesburg Sunrise", creator: "Sena Wave", releaseType: "ep", category: "music", genre: "afrobeats", trackCount: 5, theme: "sunset glow", createdAt: Date.now() - 4 * 60 * 60 * 1000 },
+	{ title: "Street Sermons Vol. 2", creator: "DJ Flexy", releaseType: "mixtape", category: "music", genre: "hip hop", trackCount: 12, theme: "midnight stage", createdAt: Date.now() - 6 * 60 * 60 * 1000 },
+	{ title: "Roofside Live", creator: "The Vibe Room", releaseType: "live session", category: "live set", genre: "dancehall", trackCount: 7, theme: "midnight stage", createdAt: Date.now() - 8 * 60 * 60 * 1000 },
+	{ title: "Forever Loop", creator: "Rex V", releaseType: "music video", category: "music video", genre: "r&b", trackCount: 1, theme: "cinema noir", createdAt: Date.now() - 10 * 60 * 60 * 1000 },
+	{ title: "Night Shift Radio", creator: "Kasi Talks", releaseType: "podcast", category: "podcast", genre: "podcast", trackCount: 8, theme: "clean minimal", createdAt: Date.now() - 12 * 60 * 60 * 1000 },
+];
+
+const DEFAULT_STREAM_ITEM_STATE = {
+	m1: { status: "live", viewers: 428, updatedAt: Date.now() - 8 * 60 * 1000, broadcastType: "music stream", scheduledAt: "" },
+	m2: { status: "scheduled", viewers: 96, updatedAt: Date.now() - 30 * 60 * 1000, broadcastType: "listening party", scheduledAt: "Tonight 8PM" },
+	m5: { status: "live", viewers: 214, updatedAt: Date.now() - 18 * 60 * 1000, broadcastType: "studio session", scheduledAt: "" },
+	m6: { status: "scheduled", viewers: 44, updatedAt: Date.now() - 2 * 60 * 60 * 1000, broadcastType: "live broadcast", scheduledAt: "Tomorrow 6PM" },
+	m7: { status: "offline", viewers: 0, updatedAt: Date.now() - 3 * 60 * 60 * 1000, broadcastType: "live broadcast", scheduledAt: "" },
+};
+
+const DEFAULT_COMMENTS = [
+	{
+		id: "c1",
+		streamId: "m1",
+		author: "Host",
+		text: "Welcome to the After Midnight release stream. New single just dropped.",
+		createdAt: Date.now() - 14 * 60 * 1000,
+		userReaction: "",
+		reactions: { like: 12, fire: 31, love: 18 },
+	},
+	{
+		id: "c2",
+		streamId: "m5",
+		author: "Live Crew",
+		text: "Roofside Live starts in a minute. Drop your city in the chat.",
+		createdAt: Date.now() - 11 * 60 * 1000,
+		userReaction: "",
+		reactions: { like: 8, fire: 22, love: 7 },
+	},
+	{
+		id: "c3",
+		streamId: "m2",
+		author: "Sena Wave",
+		text: "EP listening party is scheduled for tonight 8PM. Save your reminder.",
+		createdAt: Date.now() - 90 * 60 * 1000,
+		userReaction: "",
+		reactions: { like: 15, fire: 5, love: 11 },
+	},
 ];
 
 const promotions = [
-	{ title: "Open Creator Challenges", desc: "Weekly free challenges to feature your work." },
-	{ title: "Community Collab Hub", desc: "Find producers, designers and editors in one place." },
-	{ title: "Free Creator Toolkit", desc: "Templates, release checklists and promo guides." },
+	{ title: "Release Rollout Kits", desc: "Single, EP, and album launch guides with creator promo prompts." },
+	{ title: "Live Session Spotlight", desc: "Book featured placement for rooftop sets, listening parties, and premieres." },
+	{ title: "Collab Hub", desc: "Match with producers, vocalists, editors, and cover designers in one place." },
 ];
 
 const creators = [
-	{ name: "DJ Maphorisa", role: "Artist" },
-	{ name: "Director K", role: "Filmmaker" },
-	{ name: "VisionGFX", role: "Designer" },
-	{ name: "Street Wear", role: "Seller" },
-	{ name: "King Promo", role: "Promoter" },
+	{ name: "Ayo Luna", role: "Artist" },
+	{ name: "Sena Wave", role: "Singer / Producer" },
+	{ name: "The Vibe Room", role: "Live Curator" },
+	{ name: "Kasi Talks", role: "Podcast Host" },
+	{ name: "Core Frame", role: "Video Studio" },
 ];
 
-const playlist = ["Hot Hits This Week", "Afrobeats Bangers", "Rap Highlights", "Chill Vibes", "Movie Themes"];
+const playlist = ["Hot Hits This Week", "Amapiano Heat", "Fresh EP Rotation", "Live Session Cuts", "Premiere Soundtracks"];
 
 const stats = [
-	["Albums", "12,456"],
-	["Mixtapes", "8,742"],
-	["EPs", "6,312"],
-	["Movies", "15,489"],
-	["Series", "9,805"],
+	["Live Viewers", "128.4K"],
+	["Singles", "12,456"],
+	["EPs", "8,742"],
+	["Albums", "6,312"],
+	["Mixtapes", "4,918"],
 	["Music Videos", "7,248"],
-	["Graphics", "5,631"],
-	["Marketplace", "12,984"],
+	["Podcasts", "5,631"],
+	["Premieres", "2,984"],
 ];
 
 const state = {
@@ -107,8 +191,10 @@ const state = {
 		quality: "720p",
 		mode: "public",
 		source: "camera",
+		category: "music stream",
 		isLive: false,
 		scheduledAt: "",
+		schedulePreset: "in 1 hour",
 	},
 	streamItemState: {},
 	streamFilter: "all",
@@ -151,9 +237,15 @@ const els = {
 	streamQuality: document.getElementById("streamQuality"),
 	streamMode: document.getElementById("streamMode"),
 	streamSource: document.getElementById("streamSource"),
+	streamCategory: document.getElementById("streamCategory"),
+	schedulePreset: document.getElementById("schedulePreset"),
 	goLiveBtn: document.getElementById("goLiveBtn"),
 	scheduleBtn: document.getElementById("scheduleBtn"),
 	stopLiveBtn: document.getElementById("stopLiveBtn"),
+	liveBadgeLabel: document.getElementById("liveBadgeLabel"),
+	streamCategoryLabel: document.getElementById("streamCategoryLabel"),
+	viewerSummary: document.getElementById("viewerSummary"),
+	scheduleSummary: document.getElementById("scheduleSummary"),
 	toggleUploads: document.getElementById("toggleUploads"),
 	uploadCustomCategory: document.querySelector("#uploadForm input[name='customCategory']"),
 	uploadBulkTitles: document.querySelector("#uploadForm textarea[name='bulkTitles']"),
@@ -166,6 +258,7 @@ const els = {
 	screenStatusBadge: document.getElementById("screenStatusBadge"),
 	screenTitle: document.getElementById("screenTitle"),
 	screenMeta: document.getElementById("screenMeta"),
+	screenSupport: document.getElementById("screenSupport"),
 	commentsList: document.getElementById("commentsList"),
 	commentForm: document.getElementById("commentForm"),
 	commentInput: document.getElementById("commentInput"),
@@ -196,8 +289,14 @@ function normalizeCategory(value) {
 	if (!cleaned) {
 		return "music";
 	}
+	if (["single", "ep", "album"].includes(cleaned)) {
+		return "music";
+	}
 	if (cleaned === "video") {
 		return "videos";
+	}
+	if (cleaned === "live session") {
+		return "live set";
 	}
 	if (cleaned === "music videos") {
 		return "music video";
@@ -214,6 +313,140 @@ function normalizeGenre(value) {
 		return "other";
 	}
 	return VALID_GENRES.has(cleaned) ? cleaned : "other";
+}
+
+function normalizeReleaseType(value, fallbackCategory = "music") {
+	const cleaned = cleanText(value, 30).toLowerCase();
+	if (VALID_RELEASE_TYPES.has(cleaned)) {
+		return cleaned;
+	}
+	const category = normalizeCategory(fallbackCategory);
+	if (category === "podcast") {
+		return "podcast";
+	}
+	if (category === "music video") {
+		return "music video";
+	}
+	if (category === "movie") {
+		return "movie";
+	}
+	if (category === "series") {
+		return "series";
+	}
+	if (category === "live set") {
+		return "live session";
+	}
+	if (category === "videos") {
+		return "video";
+	}
+	if (category === "mixtape") {
+		return "mixtape";
+	}
+	return "single";
+}
+
+function normalizeTheme(value) {
+	const cleaned = cleanText(value, 30).toLowerCase();
+	if (!cleaned) {
+		return "neon pulse";
+	}
+	return VALID_THEMES.has(cleaned) ? cleaned : "neon pulse";
+}
+
+function normalizeTrackCount(value, fallback = 1) {
+	const parsed = Number.parseInt(value, 10);
+	if (!Number.isFinite(parsed) || parsed < 1) {
+		return Math.min(60, Math.max(1, Number(fallback) || 1));
+	}
+	return Math.min(60, Math.max(1, parsed));
+}
+
+function paletteFromTheme(theme) {
+	return THEME_PALETTES[normalizeTheme(theme)] || THEME_PALETTES["neon pulse"];
+}
+
+function formatLabel(value) {
+	const cleaned = String(value || "").toLowerCase();
+	if (LABEL_OVERRIDES[cleaned]) {
+		return LABEL_OVERRIDES[cleaned];
+	}
+	return cleaned
+		.split(/[\s/-]+/)
+		.filter(Boolean)
+		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+		.join(" ");
+}
+
+function inferCategoryFromReleaseType(releaseType, fallbackCategory = "music") {
+	switch (releaseType) {
+		case "single":
+		case "ep":
+		case "album":
+		case "mixtape":
+			return "music";
+		case "live session":
+			return "live set";
+		case "podcast":
+			return "podcast";
+		case "music video":
+			return "music video";
+		case "movie":
+			return "movie";
+		case "series":
+			return "series";
+		case "video":
+			return "videos";
+		default:
+			return normalizeCategory(fallbackCategory);
+	}
+}
+
+function inferBroadcastType(item) {
+	if (!item) {
+		return "music stream";
+	}
+	if (item.releaseType === "live session") {
+		return "studio session";
+	}
+	if (item.category === "music" || ["single", "ep", "album", "mixtape"].includes(item.releaseType)) {
+		return "music stream";
+	}
+	if (item.releaseType === "podcast") {
+		return "live broadcast";
+	}
+	return "live broadcast";
+}
+
+function parseCompactViews(value) {
+	const raw = String(value || "").trim().toUpperCase();
+	const match = raw.match(/^(\d+(?:\.\d+)?)([KMB])?$/);
+	if (!match) {
+		return 0;
+	}
+	const base = Number(match[1]) || 0;
+	const mult = match[2] === "M" ? 1000000 : match[2] === "B" ? 1000000000 : match[2] === "K" ? 1000 : 1;
+	return Math.round(base * mult);
+}
+
+function seedViewerCount(item, multiplier = 1) {
+	const baseViews = parseCompactViews(item && item.views ? item.views : "0");
+	const trackCount = normalizeTrackCount(item && item.trackCount ? item.trackCount : 1, 1);
+	const baseline = Math.max(18, Math.round(baseViews / 180) + trackCount * 4);
+	return Math.max(0, Math.round(baseline * multiplier));
+}
+
+function getCountLabel(item) {
+	const count = normalizeTrackCount(item && item.trackCount ? item.trackCount : 1, 1);
+	if (item && item.releaseType === "podcast") {
+		return `${count} episode${count === 1 ? "" : "s"}`;
+	}
+	if (item && item.releaseType === "movie") {
+		return "feature release";
+	}
+	if (item && item.releaseType === "series") {
+		return `${count} episode${count === 1 ? "" : "s"}`;
+	}
+	return `${count} track${count === 1 ? "" : "s"}`;
 }
 
 function titleFromFileName(fileName) {
@@ -347,14 +580,19 @@ function normalizeMedia(rawMedia) {
 			if (!title || !creator) {
 				return null;
 			}
+			const category = normalizeCategory(item.category);
+			const releaseType = normalizeReleaseType(item.releaseType || item.category, category);
 			return {
 				id: cleanText(item.id || makeId(), 100),
 				title,
 				creator,
-				category: normalizeCategory(item.category),
+				category: inferCategoryFromReleaseType(releaseType, category),
+				releaseType,
 				genre: normalizeGenre(item.genre),
 				views: cleanText(item.views || "0", 20),
-				palette: cleanText(item.palette || "linear-gradient(140deg, #1f71ff, #0d2c7f)", 120),
+				trackCount: normalizeTrackCount(item.trackCount, releaseType === "single" ? 1 : 1),
+				theme: normalizeTheme(item.theme),
+				palette: cleanText(item.palette || paletteFromTheme(item.theme), 120),
 				createdAt: Number(item.createdAt) || Date.now(),
 			};
 		})
@@ -380,7 +618,18 @@ function normalizeUploads(rawUploads) {
 				|| Date.now() - (typeof item.time === "string" && item.time.endsWith("h ago")
 					? Number(item.time.replace("h ago", "")) * 60 * 60 * 1000
 					: 0);
-			return { title, creator, genre: normalizeGenre(item.genre), createdAt };
+			const category = normalizeCategory(item.category);
+			const releaseType = normalizeReleaseType(item.releaseType || item.category, category);
+			return {
+				title,
+				creator,
+				category: inferCategoryFromReleaseType(releaseType, category),
+				releaseType,
+				genre: normalizeGenre(item.genre),
+				trackCount: normalizeTrackCount(item.trackCount, releaseType === "single" ? 1 : 1),
+				theme: normalizeTheme(item.theme),
+				createdAt,
+			};
 		})
 		.filter(Boolean)
 		.slice(0, MAX_UPLOADS);
@@ -418,12 +667,15 @@ function normalizeStream(rawStream) {
 	const quality = cleanText(stream.quality || "720p", 10).toLowerCase();
 	const mode = cleanText(stream.mode || "public", 20).toLowerCase();
 	const source = cleanText(stream.source || "camera", 20).toLowerCase();
+	const category = cleanText(stream.category || "music stream", 30).toLowerCase();
 	return {
 		quality: VALID_STREAM_QUALITY.has(quality) ? quality : "720p",
 		mode: VALID_STREAM_MODE.has(mode) ? mode : "public",
 		source: VALID_STREAM_SOURCE.has(source) ? source : "camera",
+		category: VALID_STREAM_CATEGORIES.has(category) ? category : "music stream",
 		isLive: Boolean(stream.isLive),
 		scheduledAt: cleanText(stream.scheduledAt || "", 80),
+		schedulePreset: cleanText(stream.schedulePreset || "in 1 hour", 40),
 	};
 }
 
@@ -477,6 +729,10 @@ function normalizeStreamItemState(rawState) {
 			status: ["live", "scheduled", "offline"].includes(status) ? status : "offline",
 			viewers: Math.max(0, Number(value.viewers) || 0),
 			updatedAt: Number(value.updatedAt) || Date.now(),
+			broadcastType: VALID_STREAM_CATEGORIES.has(cleanText(value.broadcastType || "", 30).toLowerCase())
+				? cleanText(value.broadcastType || "", 30).toLowerCase()
+				: "music stream",
+			scheduledAt: cleanText(value.scheduledAt || "", 80),
 		};
 	});
 	return normalized;
@@ -497,18 +753,7 @@ function ensureStateIntegrity() {
 	}
 
 	if (!state.comments.length) {
-		const fallbackId = state.selectedStreamId || "general";
-		state.comments = [
-			{
-				id: makeId(),
-				streamId: fallbackId,
-				author: "System",
-				text: "Welcome to the live chat.",
-				createdAt: Date.now() - 3 * 60 * 1000,
-				userReaction: "",
-				reactions: { like: 0, fire: 0, love: 0 },
-			},
-		];
+		state.comments = normalizeComments(DEFAULT_COMMENTS);
 	}
 }
 
@@ -525,8 +770,8 @@ function loadState() {
 	const follows = loadJson(STORAGE_KEYS.follows, {});
 	state.follows = follows && typeof follows === "object" ? follows : {};
 	state.stream = normalizeStream(loadJson(STORAGE_KEYS.stream, state.stream));
-	state.streamItemState = normalizeStreamItemState(loadJson(STORAGE_KEYS.streamItemState, {}));
-	state.comments = normalizeComments(loadJson(STORAGE_KEYS.comments, []));
+	state.streamItemState = normalizeStreamItemState(loadJson(STORAGE_KEYS.streamItemState, DEFAULT_STREAM_ITEM_STATE));
+	state.comments = normalizeComments(loadJson(STORAGE_KEYS.comments, DEFAULT_COMMENTS));
 	ensureStateIntegrity();
 }
 
@@ -541,20 +786,50 @@ function saveState() {
 }
 
 function getStreamStatusForItem(item) {
+	const entry = getStreamEntry(item);
+	return entry.status;
+}
+
+function getStreamEntry(item) {
 	if (!item) {
-		return "offline";
+		return {
+			status: "offline",
+			viewers: 0,
+			updatedAt: Date.now(),
+			broadcastType: "music stream",
+			scheduledAt: "",
+		};
 	}
 	const entry = state.streamItemState[item.id];
 	if (entry && typeof entry === "object") {
-		return entry.status;
+		return {
+			status: entry.status,
+			viewers: Math.max(0, Number(entry.viewers) || 0),
+			updatedAt: Number(entry.updatedAt) || Date.now(),
+			broadcastType: VALID_STREAM_CATEGORIES.has(cleanText(entry.broadcastType || "", 30).toLowerCase())
+				? cleanText(entry.broadcastType || "", 30).toLowerCase()
+				: inferBroadcastType(item),
+			scheduledAt: cleanText(entry.scheduledAt || "", 80),
+		};
 	}
-	return "offline";
+	return {
+		status: "offline",
+		viewers: 0,
+		updatedAt: Date.now(),
+		broadcastType: inferBroadcastType(item),
+		scheduledAt: "",
+	};
 }
 
 function getFilteredStreams() {
 	const streams = state.mediaItems.filter((item) => {
 		const category = item.category;
-		return category.includes("music") || category.includes("video") || category.includes("movie") || category.includes("series");
+		return category.includes("music")
+			|| category.includes("video")
+			|| category.includes("movie")
+			|| category.includes("series")
+			|| category.includes("podcast")
+			|| category.includes("live");
 	});
 	if (state.streamFilter === "all") {
 		return streams;
@@ -568,7 +843,7 @@ function renderStreamFilters() {
 	}
 	const filters = ["all", "live", "scheduled", "offline"];
 	els.streamFilterRow.innerHTML = filters
-		.map((filter) => `<button class="stream-filter-chip ${state.streamFilter === filter ? "active" : ""}" data-stream-filter="${filter}">${filter}</button>`)
+		.map((filter) => `<button class="stream-filter-chip ${state.streamFilter === filter ? "active" : ""}" data-stream-filter="${filter}">${escapeHtml(formatLabel(filter))}</button>`)
 		.join("");
 
 	Array.from(els.streamFilterRow.querySelectorAll("button[data-stream-filter]")).forEach((button) => {
@@ -581,19 +856,22 @@ function renderStreamFilters() {
 }
 
 function updateStreamScreen(item) {
-	if (!els.screenTitle || !els.screenMeta || !els.screenStatusBadge) {
+	if (!els.screenTitle || !els.screenMeta || !els.screenStatusBadge || !els.screenSupport) {
 		return;
 	}
 	if (!item) {
 		els.screenTitle.textContent = "No stream selected";
 		els.screenMeta.textContent = "Select a stream from the feed.";
+		els.screenSupport.textContent = "Choose a music release or live broadcast to preview its details here.";
 		els.screenStatusBadge.textContent = "OFFLINE";
 		els.screenStatusBadge.classList.remove("live", "scheduled");
 		return;
 	}
-	const status = getStreamStatusForItem(item);
+	const entry = getStreamEntry(item);
+	const status = entry.status;
 	els.screenTitle.textContent = item.title;
-	els.screenMeta.textContent = `${item.creator} • ${item.category} • ${item.genre || "other"} • ${item.views} views`;
+	els.screenMeta.textContent = `${item.creator} • ${formatLabel(item.releaseType)} • ${getCountLabel(item)} • ${item.views} views`;
+	els.screenSupport.textContent = `${formatLabel(entry.broadcastType)} • ${status === "live" ? `${entry.viewers} viewers live now` : status === "scheduled" ? `${entry.viewers} waiting • ${entry.scheduledAt || "Schedule saved"}` : `${formatLabel(item.category)} ready to stream`}`;
 	els.screenStatusBadge.textContent = status.toUpperCase();
 	els.screenStatusBadge.classList.remove("live", "scheduled");
 	if (status === "live") {
@@ -620,11 +898,17 @@ function renderStreamFeed() {
 	}
 	els.streamFeed.innerHTML = filtered
 		.map((item) => {
-			const status = getStreamStatusForItem(item);
+			const entry = getStreamEntry(item);
+			const status = entry.status;
 			return `
 				<article class="stream-card ${state.selectedStreamId === item.id ? "active" : ""}" data-stream-id="${escapeHtml(item.id)}">
+					<div class="stream-card-badges">
+						<span class="mini-badge ${escapeHtml(status)}">${escapeHtml(status.toUpperCase())}</span>
+						<span class="mini-badge neutral">${escapeHtml(formatLabel(item.releaseType))}</span>
+					</div>
 					<h4>${escapeHtml(item.title)}</h4>
-					<p>${escapeHtml(item.creator)} • ${escapeHtml(status.toUpperCase())}</p>
+					<p>${escapeHtml(item.creator)} • ${escapeHtml(formatLabel(entry.broadcastType))}</p>
+					<p>${escapeHtml(status === "scheduled" ? entry.scheduledAt || "Scheduled soon" : `${entry.viewers} viewers`)} • ${escapeHtml(getCountLabel(item))}</p>
 				</article>
 			`;
 		})
@@ -634,6 +918,7 @@ function renderStreamFeed() {
 		card.addEventListener("click", () => {
 			state.selectedStreamId = cleanText(card.dataset.streamId || "", 100);
 			renderStreamFeed();
+			applyStreamState();
 			renderComments();
 		});
 	});
@@ -702,22 +987,45 @@ function renderComments() {
 }
 
 function applyStreamState() {
-	if (!els.streamStatus || !els.streamQuality || !els.streamMode || !els.streamSource) {
+	if (!els.streamStatus || !els.streamQuality || !els.streamMode || !els.streamSource || !els.streamCategory || !els.schedulePreset) {
 		return;
 	}
-	const { isLive, quality, mode, source, scheduledAt } = state.stream;
+	const { isLive, quality, mode, source, scheduledAt, category, schedulePreset } = state.stream;
+	const selectedItem = state.mediaItems.find((item) => item.id === state.selectedStreamId) || state.mediaItems[0] || null;
+	const selectedEntry = getStreamEntry(selectedItem);
+	const displayIsLive = isLive || selectedEntry.status === "live";
+	const displaySchedule = selectedEntry.scheduledAt || scheduledAt;
+	const displayCategory = selectedEntry.broadcastType || category;
 	els.streamQuality.value = quality;
 	els.streamMode.value = mode;
 	els.streamSource.value = source;
-	if (isLive) {
-		els.streamStatus.textContent = `Status: Live now (${quality}, ${mode}, ${source})`;
+	els.streamCategory.value = category;
+	els.schedulePreset.value = schedulePreset;
+	if (els.liveBadgeLabel) {
+		els.liveBadgeLabel.textContent = displayIsLive ? "Live Now" : displaySchedule ? "Scheduled" : "Offline";
+	}
+	if (els.streamCategoryLabel) {
+		els.streamCategoryLabel.textContent = formatLabel(displayCategory);
+	}
+	if (els.viewerSummary) {
+		els.viewerSummary.textContent = displayIsLive
+			? `${selectedEntry.viewers} watching`
+			: displaySchedule
+				? `${selectedEntry.viewers} waiting`
+				: "0 waiting";
+	}
+	if (els.scheduleSummary) {
+		els.scheduleSummary.textContent = displaySchedule || "Ready now";
+	}
+	if (displayIsLive) {
+		els.streamStatus.textContent = `Status: Live now • ${formatLabel(displayCategory)} • ${selectedEntry.viewers} viewers`;
 		return;
 	}
-	if (scheduledAt) {
-		els.streamStatus.textContent = `Status: Scheduled for ${scheduledAt}`;
+	if (displaySchedule) {
+		els.streamStatus.textContent = `Status: Scheduled for ${displaySchedule} • ${formatLabel(displayCategory)}`;
 		return;
 	}
-	els.streamStatus.textContent = "Status: Offline";
+	els.streamStatus.textContent = `Status: Offline • ${formatLabel(displayCategory)} ready`;
 }
 
 function categoryMatches(filter, category) {
@@ -739,6 +1047,12 @@ function categoryMatches(filter, category) {
 	if (filter === "movie") {
 		return category.includes("movie");
 	}
+	if (filter === "live session") {
+		return category.includes("live");
+	}
+	if (filter === "podcast") {
+		return category.includes("podcast");
+	}
 	return category.includes(filter);
 }
 
@@ -757,10 +1071,11 @@ function matchesFilters(item) {
 	if (state.selectedCategory === "upload") {
 		bySidebar = true;
 	}
-
-	const byChip = categoryMatches(state.selectedChip, item.category);
+	const byChip = state.selectedChip === "all"
+		|| categoryMatches(state.selectedChip, item.category)
+		|| item.releaseType === state.selectedChip;
 	const q = cleanText(state.query, 120).toLowerCase();
-	const bySearch = !q || `${item.title} ${item.creator} ${item.category}`.toLowerCase().includes(q);
+	const bySearch = !q || `${item.title} ${item.creator} ${item.category} ${item.releaseType} ${item.genre} ${item.theme}`.toLowerCase().includes(q);
 
 	return bySidebar && byChip && bySearch;
 }
@@ -789,11 +1104,11 @@ function renderChips() {
 	if (!els.chips) {
 		return;
 	}
-	const chipValues = ["all", "music", "videos", "movie", "series", "graphics", "product"];
+	const chipValues = ["all", "music", "single", "ep", "album", "mixtape", "live session", "podcast", "music video", "movie", "series"];
 	els.chips.innerHTML = chipValues
 		.map(
 			(chip) =>
-				`<button class="chip ${state.selectedChip === chip ? "active" : ""}" data-chip="${escapeHtml(chip)}">${escapeHtml(chip)}</button>`
+				`<button class="chip ${state.selectedChip === chip ? "active" : ""}" data-chip="${escapeHtml(chip)}">${escapeHtml(formatLabel(chip))}</button>`
 		)
 		.join("");
 
@@ -821,13 +1136,17 @@ function renderMedia() {
 			(item) => `
 				<article class="media-card">
 					<div class="media-art" style="background:${escapeHtml(item.palette)}">
-						<span class="tag">${escapeHtml(item.category)}</span>
+						<div class="tag-row">
+							<span class="tag">${escapeHtml(formatLabel(item.category))}</span>
+							<span class="tag alt">${escapeHtml(formatLabel(item.releaseType))}</span>
+						</div>
 					</div>
 					<div class="media-info">
 						<p class="media-title">${escapeHtml(item.title)}</p>
 						<p class="meta">${escapeHtml(item.creator)} - ${escapeHtml(item.genre || "other")} - ${escapeHtml(item.views)} views</p>
+						<p class="meta release-meta">${escapeHtml(getCountLabel(item))} • ${escapeHtml(formatLabel(item.theme))}</p>
 						<div class="card-actions">
-							<button data-action="play" data-id="${escapeHtml(item.id)}">Play</button>
+							<button data-action="play" data-id="${escapeHtml(item.id)}">${item.category === "movie" || item.category === "series" || item.category === "videos" || item.category === "music video" ? "Watch" : "Play"}</button>
 							<button data-action="queue" data-id="${escapeHtml(item.id)}">Queue</button>
 						</div>
 					</div>
@@ -871,7 +1190,8 @@ function renderUploads() {
 			(item) => `
 				<article class="upload-item">
 					<p>${escapeHtml(item.title)}</p>
-					<p class="creator">${escapeHtml(item.creator)} • ${escapeHtml(item.genre || "other")}</p>
+					<p class="creator">${escapeHtml(item.creator)} • ${escapeHtml(formatLabel(item.releaseType))} • ${escapeHtml(getCountLabel(item))}</p>
+					<p class="meta">${escapeHtml(formatLabel(item.category))} • ${escapeHtml(formatLabel(item.theme))}</p>
 					<p class="time">${escapeHtml(formatRelativeTime(item.createdAt))}</p>
 				</article>
 			`
@@ -1097,9 +1417,14 @@ function bindEvents() {
 		const title = cleanText(formData.get("title"), TITLE_MAX_LEN);
 		const creator = cleanText(formData.get("creator"), CREATOR_MAX_LEN);
 		const baseCategory = normalizeCategory(formData.get("category"));
+		const releaseType = normalizeReleaseType(formData.get("releaseType"), baseCategory);
 		const genre = normalizeGenre(formData.get("genre"));
 		const customCategory = normalizeCategory(formData.get("customCategory"));
-		const category = customCategory && customCategory !== "other" ? customCategory : baseCategory;
+		const category = customCategory && customCategory !== "other"
+			? customCategory
+			: inferCategoryFromReleaseType(releaseType, baseCategory);
+		const theme = normalizeTheme(formData.get("theme"));
+		const enteredTrackCount = normalizeTrackCount(formData.get("trackCount"), releaseType === "single" ? 1 : 1);
 		const bulkRaw = String(formData.get("bulkTitles") || "").slice(0, 20000);
 		const bulkTitles = bulkRaw
 			.split(/\r?\n/)
@@ -1124,20 +1449,40 @@ function bindEvents() {
 			showToast("Please upload up to 200 items per batch.");
 			return;
 		}
+		if (releaseType === "single" && uniqueTitles.length > 1) {
+			showToast("Singles can only publish one title at a time. Choose EP, album, or mixtape for batches.");
+			return;
+		}
+
+		const trackCount = releaseType === "single"
+			? 1
+			: Math.max(enteredTrackCount, uniqueTitles.length);
 
 		let addedCount = 0;
 		const start = Date.now();
 		uniqueTitles.forEach((uploadTitle, index) => {
 			const now = start + index;
-			state.latestUploads.unshift({ title: uploadTitle, creator, genre, createdAt: now });
+			state.latestUploads.unshift({
+				title: uploadTitle,
+				creator,
+				category,
+				releaseType,
+				genre,
+				trackCount,
+				theme,
+				createdAt: now,
+			});
 			state.mediaItems.unshift({
 				id: makeId(),
 				title: uploadTitle,
 				creator,
 				category,
+				releaseType,
 				genre,
+				trackCount,
+				theme,
 				views: "0",
-				palette: "linear-gradient(140deg, #1f71ff, #0d2c7f)",
+				palette: paletteFromTheme(theme),
 				createdAt: now,
 			});
 			addedCount += 1;
@@ -1153,7 +1498,7 @@ function bindEvents() {
 		}
 		els.uploadForm.reset();
 		clearPendingFilesQueue();
-		showToast(`Published ${addedCount} upload${addedCount === 1 ? "" : "s"}`);
+		showToast(`Published ${addedCount} ${formatLabel(releaseType)} ${addedCount === 1 ? "release" : "items"}`);
 	});
 
 	addSafeListener(els.uploadDialog, "click", (event) => {
@@ -1222,7 +1567,7 @@ function bindEvents() {
 		showToast("Creator support info opened");
 	});
 
-	if (els.streamQuality && els.streamMode && els.streamSource) {
+	if (els.streamQuality && els.streamMode && els.streamSource && els.streamCategory && els.schedulePreset) {
 		const updateStreamPrefs = () => {
 			state.stream.quality = VALID_STREAM_QUALITY.has(els.streamQuality.value.toLowerCase())
 				? els.streamQuality.value.toLowerCase()
@@ -1233,22 +1578,31 @@ function bindEvents() {
 			state.stream.source = VALID_STREAM_SOURCE.has(els.streamSource.value.toLowerCase())
 				? els.streamSource.value.toLowerCase()
 				: "camera";
+			state.stream.category = VALID_STREAM_CATEGORIES.has(els.streamCategory.value.toLowerCase())
+				? els.streamCategory.value.toLowerCase()
+				: "music stream";
+			state.stream.schedulePreset = cleanText(els.schedulePreset.value || "in 1 hour", 40);
 			saveState();
 			applyStreamState();
 		};
 		addSafeListener(els.streamQuality, "change", updateStreamPrefs);
 		addSafeListener(els.streamMode, "change", updateStreamPrefs);
 		addSafeListener(els.streamSource, "change", updateStreamPrefs);
+		addSafeListener(els.streamCategory, "change", updateStreamPrefs);
+		addSafeListener(els.schedulePreset, "change", updateStreamPrefs);
 	}
 
 	addSafeListener(els.goLiveBtn, "click", () => {
 		state.stream.isLive = true;
 		state.stream.scheduledAt = "";
 		if (state.selectedStreamId) {
+			const currentItem = state.mediaItems.find((item) => item.id === state.selectedStreamId);
 			state.streamItemState[state.selectedStreamId] = {
 				status: "live",
-				viewers: Math.max(1, Number((state.streamItemState[state.selectedStreamId] || {}).viewers) || 0),
+				viewers: Math.max(seedViewerCount(currentItem, 1.2), Number((state.streamItemState[state.selectedStreamId] || {}).viewers) || 0, 24),
 				updatedAt: Date.now(),
+				broadcastType: state.stream.category,
+				scheduledAt: "",
 			};
 		}
 		saveState();
@@ -1258,20 +1612,22 @@ function bindEvents() {
 	});
 
 	addSafeListener(els.scheduleBtn, "click", () => {
-		const inOneHour = new Date(Date.now() + 60 * 60 * 1000);
 		state.stream.isLive = false;
-		state.stream.scheduledAt = inOneHour.toLocaleString();
+		state.stream.scheduledAt = formatLabel(state.stream.schedulePreset || "in 1 hour");
 		if (state.selectedStreamId) {
+			const currentItem = state.mediaItems.find((item) => item.id === state.selectedStreamId);
 			state.streamItemState[state.selectedStreamId] = {
 				status: "scheduled",
-				viewers: Number((state.streamItemState[state.selectedStreamId] || {}).viewers) || 0,
+				viewers: Math.max(seedViewerCount(currentItem, 0.35), Number((state.streamItemState[state.selectedStreamId] || {}).viewers) || 0, 8),
 				updatedAt: Date.now(),
+				broadcastType: state.stream.category,
+				scheduledAt: state.stream.scheduledAt,
 			};
 		}
 		saveState();
 		applyStreamState();
 		renderStreamFeed();
-		showToast("Stream scheduled for 1 hour from now");
+		showToast(`Stream scheduled for ${state.stream.scheduledAt}`);
 	});
 
 	addSafeListener(els.stopLiveBtn, "click", () => {
@@ -1282,6 +1638,8 @@ function bindEvents() {
 				status: "offline",
 				viewers: 0,
 				updatedAt: Date.now(),
+				broadcastType: state.stream.category,
+				scheduledAt: "",
 			};
 		}
 		saveState();
@@ -1364,4 +1722,3 @@ function init() {
 }
 
 init();
-
