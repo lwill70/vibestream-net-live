@@ -168,7 +168,13 @@
               <button class="btn-link" id="clearFilters">View All</button>
             </div>
           </section>
+          <section class="action-filter-row" id="actionFilterRow"></section>
           <section id="trendingGrid" class="card-grid"></section>
+
+          <section class="section-head compact">
+            <h2>Browse by Content Area</h2>
+          </section>
+          <section class="content-sections" id="contentSections"></section>
 
           <section class="section-head compact">
             <h2>Latest Uploads</h2>
@@ -238,13 +244,22 @@
             <select name="category" required>
               <option value="music">Music</option>
               <option value="music video">Music Video</option>
-              <option value="videos">Video</option>
+              <option value="videos">Downloadable Media</option>
               <option value="movie">Movie</option>
               <option value="mixtape">Mixtape</option>
               <option value="series">Series</option>
               <option value="graphics">Graphics</option>
+              <option value="product">Product Listing</option>
               <option value="podcast">Podcast</option>
               <option value="other">Other</option>
+            </select>
+          </label>
+          <label>
+            Primary Action
+            <select name="accessModel">
+              <option value="stream" selected>Stream</option>
+              <option value="download">Download</option>
+              <option value="buy">Buy / Sell</option>
             </select>
           </label>
           <label>
@@ -269,6 +284,7 @@
             Creator Name
             <input name="creator" required placeholder="Your stage name" />
           </label>
+          <p class="field-note upload-type-hint" id="uploadTypeHint">Music uploads default to stream-friendly publishing.</p>
         </div>
 
         <div class="upload-section">
@@ -283,6 +299,31 @@
           </label>
           <p class="field-note">Pick files in multiple rounds. New selections are added to the queue.</p>
         </div>
+      </section>
+
+      <section class="upload-section upload-product-fields" id="uploadProductFields">
+        <h4>Product Selling Slot Details</h4>
+        <label>
+          Price
+          <input name="price" placeholder="e.g. 299.99 ZAR" />
+        </label>
+        <label>
+          Seller
+          <input name="seller" placeholder="Store or seller name" />
+        </label>
+        <label>
+          Stock / Status
+          <select name="stockStatus">
+            <option value="In Stock" selected>In Stock</option>
+            <option value="Low Stock">Low Stock</option>
+            <option value="Preorder">Preorder</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
+        </label>
+        <label>
+          Product Category / Type
+          <input name="productType" placeholder="e.g. Apparel, Software, Design Service" />
+        </label>
       </section>
 
       <div class="pending-files" id="pendingFilesWrap">

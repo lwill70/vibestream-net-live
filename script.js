@@ -43,6 +43,7 @@ const VALID_GENRES = new Set([
 	"cinematic",
 	"other",
 ]);
+const VALID_ACTIONS = new Set(["stream", "download", "buy"]);
 
 const VALID_STREAM_QUALITY = new Set(["360p", "720p", "1080p", "4k"]);
 const VALID_STREAM_MODE = new Set(["public", "unlisted", "private"]);
@@ -50,22 +51,28 @@ const VALID_STREAM_SOURCE = new Set(["camera", "screen", "mixed"]);
 const VALID_REACTIONS = ["like", "fire", "love"];
 
 const DEFAULT_MEDIA = [
-	{ id: "m1", title: "Neon Skyline", creator: "DJ Maphorisa", category: "music", views: "24.5K", palette: "linear-gradient(140deg, #2e7bff, #8f3cff)" },
-	{ id: "m2", title: "Street Vibes 3", creator: "DJ Flexy", category: "mixtape", views: "18.7K", palette: "linear-gradient(140deg, #1469ff, #10307f)" },
-	{ id: "m3", title: "Blood Covenant", creator: "Vibe Pictures", category: "movie", views: "35.6K", palette: "linear-gradient(140deg, #7d2a20, #25152f)" },
-	{ id: "m4", title: "Last City", creator: "Core Frame", category: "series", views: "29.1K", palette: "linear-gradient(140deg, #1f3d6d, #0c141f)" },
-	{ id: "m5", title: "Forever", creator: "Rex V", category: "music video", views: "22.8K", palette: "linear-gradient(140deg, #641d28, #1e182f)" },
-	{ id: "m6", title: "Free Cover Pack", creator: "Design Hive", category: "graphics", views: "8.3K", palette: "linear-gradient(140deg, #8f6b2f, #1a1e38)" },
-	{ id: "m7", title: "Vibe Hoodie", creator: "Street Wear", category: "product", views: "13.4K", palette: "linear-gradient(140deg, #2f3a54, #121826)" },
-	{ id: "m8", title: "Pulse Mix 2026", creator: "VisionGFX", category: "music", views: "17.9K", palette: "linear-gradient(140deg, #0e66a8, #2a1655)" },
+	{ id: "m1", title: "Neon Skyline", creator: "DJ Maphorisa", category: "music", genre: "afrobeats", action: "stream", views: "24.5K", palette: "linear-gradient(140deg, #2e7bff, #8f3cff)" },
+	{ id: "m2", title: "Street Vibes 3", creator: "DJ Flexy", category: "mixtape", genre: "hip hop", action: "download", views: "18.7K", palette: "linear-gradient(140deg, #1469ff, #10307f)" },
+	{ id: "m3", title: "Blood Covenant", creator: "Vibe Pictures", category: "movie", genre: "cinematic", action: "stream", views: "35.6K", palette: "linear-gradient(140deg, #7d2a20, #25152f)" },
+	{ id: "m4", title: "Last City", creator: "Core Frame", category: "series", genre: "cinematic", action: "stream", views: "29.1K", palette: "linear-gradient(140deg, #1f3d6d, #0c141f)" },
+	{ id: "m5", title: "Forever", creator: "Rex V", category: "music video", genre: "r&b", action: "stream", views: "22.8K", palette: "linear-gradient(140deg, #641d28, #1e182f)" },
+	{ id: "m6", title: "Agency Brand Kit", creator: "Design Hive", category: "graphics", genre: "other", action: "download", views: "8.3K", palette: "linear-gradient(140deg, #8f6b2f, #1a1e38)" },
+	{ id: "m7", title: "Vibe Hoodie", creator: "Street Wear", category: "product", genre: "other", action: "buy", views: "13.4K", palette: "linear-gradient(140deg, #2f3a54, #121826)", price: "R450", seller: "Street Wear", stockStatus: "In Stock", productType: "Apparel" },
+	{ id: "m8", title: "Pulse Mix 2026", creator: "VisionGFX", category: "music", genre: "amapiano", action: "stream", views: "17.9K", palette: "linear-gradient(140deg, #0e66a8, #2a1655)" },
+	{ id: "m9", title: "Midnight Run Trailer", creator: "Frame Unit", category: "videos", genre: "cinematic", action: "download", views: "9.6K", palette: "linear-gradient(140deg, #1f486f, #11182f)" },
+	{ id: "m10", title: "Social Media Carousel Pack", creator: "Pixel Lab", category: "graphics", genre: "other", action: "buy", views: "6.4K", palette: "linear-gradient(140deg, #3a4b9f, #1b1e46)", price: "R180", seller: "Pixel Lab", stockStatus: "Digital Delivery", productType: "Design Asset Pack" },
+	{ id: "m11", title: "Studio Lighting Kit", creator: "Creator Mart", category: "product", genre: "other", action: "buy", views: "4.2K", palette: "linear-gradient(140deg, #3c445c, #1c2333)", price: "R1299", seller: "Creator Mart", stockStatus: "Low Stock", productType: "Production Gear" },
+	{ id: "m12", title: "Sunset Live Session", creator: "Nandi Live", category: "music video", genre: "afrobeats", action: "stream", views: "11.2K", palette: "linear-gradient(140deg, #7d4d1f, #2a1649)" },
 ];
 
 const DEFAULT_UPLOADS = [
-	{ title: "Summer Fever", creator: "Jay Melody", createdAt: Date.now() - 2 * 60 * 60 * 1000 },
-	{ title: "The Equalizer 3", creator: "Action Vault", createdAt: Date.now() - 4 * 60 * 60 * 1000 },
-	{ title: "Logo Design Pack", creator: "VisionGFX", createdAt: Date.now() - 6 * 60 * 60 * 1000 },
-	{ title: "No Love", creator: "Official V", createdAt: Date.now() - 9 * 60 * 60 * 1000 },
-	{ title: "V-Lone Tee", creator: "Street Wear", createdAt: Date.now() - 8 * 60 * 60 * 1000 },
+	{ title: "Summer Fever", creator: "Jay Melody", category: "music", action: "stream", createdAt: Date.now() - 2 * 60 * 60 * 1000 },
+	{ title: "The Equalizer 3", creator: "Action Vault", category: "movie", action: "stream", createdAt: Date.now() - 4 * 60 * 60 * 1000 },
+	{ title: "Logo Design Pack", creator: "VisionGFX", category: "graphics", action: "download", createdAt: Date.now() - 6 * 60 * 60 * 1000 },
+	{ title: "No Love", creator: "Official V", category: "music video", action: "stream", createdAt: Date.now() - 9 * 60 * 60 * 1000 },
+	{ title: "V-Lone Tee", creator: "Street Wear", category: "product", action: "buy", createdAt: Date.now() - 8 * 60 * 60 * 1000, price: "R399", stockStatus: "In Stock" },
+	{ title: "Urban Nights S01E01", creator: "Vibe TV", category: "series", action: "stream", createdAt: Date.now() - 10 * 60 * 60 * 1000 },
+	{ title: "Creator LUT Bundle", creator: "Pixel Lab", category: "graphics", action: "buy", createdAt: Date.now() - 12 * 60 * 60 * 1000, price: "R120", stockStatus: "Digital Delivery" },
 ];
 
 const promotions = [
@@ -98,6 +105,7 @@ const stats = [
 const state = {
 	selectedCategory: "all",
 	selectedChip: "all",
+	selectedAction: "all",
 	query: "",
 	mediaItems: [],
 	latestUploads: [],
@@ -124,8 +132,10 @@ const els = {
 	searchInput: document.getElementById("searchInput"),
 	menuItems: Array.from(document.querySelectorAll(".menu-item[data-section]")),
 	chips: document.getElementById("filterChips"),
+	actionFilterRow: document.getElementById("actionFilterRow"),
 	statsStrip: document.getElementById("statsStrip"),
 	trendingGrid: document.getElementById("trendingGrid"),
+	contentSections: document.getElementById("contentSections"),
 	latestStrip: document.getElementById("latestStrip"),
 	promoGrid: document.getElementById("promoGrid"),
 	creatorsList: document.getElementById("creatorsList"),
@@ -158,6 +168,8 @@ const els = {
 	uploadCustomCategory: document.querySelector("#uploadForm input[name='customCategory']"),
 	uploadBulkTitles: document.querySelector("#uploadForm textarea[name='bulkTitles']"),
 	uploadMediaFiles: document.getElementById("mediaFiles"),
+	uploadTypeHint: document.getElementById("uploadTypeHint"),
+	uploadProductFields: document.getElementById("uploadProductFields"),
 	pendingFilesWrap: document.getElementById("pendingFilesWrap"),
 	pendingFilesList: document.getElementById("pendingFilesList"),
 	clearPendingFiles: document.getElementById("clearPendingFiles"),
@@ -214,6 +226,33 @@ function normalizeGenre(value) {
 		return "other";
 	}
 	return VALID_GENRES.has(cleaned) ? cleaned : "other";
+}
+
+function normalizeAction(value, category) {
+	const cleaned = cleanText(value, 20).toLowerCase();
+	if (VALID_ACTIONS.has(cleaned)) {
+		return cleaned;
+	}
+	if (String(category).includes("product")) {
+		return "buy";
+	}
+	if (String(category).includes("graphic")) {
+		return "download";
+	}
+	return "stream";
+}
+
+function formatActionLabel(action) {
+	const key = cleanText(action, 20).toLowerCase();
+	if (key === "buy") {
+		return "Buy / Sell";
+	}
+	return key ? `${key[0].toUpperCase()}${key.slice(1)}` : "Stream";
+}
+
+function formatPrice(value) {
+	const cleaned = cleanText(value, 30);
+	return cleaned || "Price on request";
 }
 
 function titleFromFileName(fileName) {
@@ -299,6 +338,69 @@ function loadJson(key, fallback) {
 	}
 }
 
+function renderActionFilters() {
+	if (!els.actionFilterRow) {
+		return;
+	}
+	const actions = ["all", "stream", "download", "buy"];
+	els.actionFilterRow.innerHTML = actions
+		.map(
+			(action) =>
+				`<button class="chip ${state.selectedAction === action ? "active" : ""}" data-action-chip="${escapeHtml(action)}">${escapeHtml(formatActionLabel(action))}</button>`
+		)
+		.join("");
+	Array.from(els.actionFilterRow.querySelectorAll("button[data-action-chip]")).forEach((button) => {
+		button.addEventListener("click", () => {
+			state.selectedAction = cleanText(button.dataset.actionChip || "all", 20);
+			renderActionFilters();
+			renderMedia();
+		});
+	});
+}
+
+function getSectionItems(filterFn) {
+	return state.mediaItems
+		.filter(filterFn)
+		.sort((a, b) => b.createdAt - a.createdAt)
+		.slice(0, 4);
+}
+
+function renderSectionPreview(items) {
+	if (!items.length) {
+		return "<p class='meta'>No items yet</p>";
+	}
+	return items
+		.map((item) => `<span>${escapeHtml(item.title)}</span>`)
+		.join("");
+}
+
+function renderContentSections() {
+	if (!els.contentSections) {
+		return;
+	}
+	const sections = [
+		{ title: "Streamable Music & Live", action: "Stream", items: getSectionItems((item) => item.action === "stream" && (item.category.includes("music") || item.category.includes("mixtape") || item.category.includes("podcast"))) },
+		{ title: "Downloadable Media", action: "Download", items: getSectionItems((item) => item.action === "download") },
+		{ title: "Movies", action: "Stream", items: getSectionItems((item) => item.category.includes("movie")) },
+		{ title: "Series", action: "Stream", items: getSectionItems((item) => item.category.includes("series")) },
+		{ title: "Music Videos", action: "Stream", items: getSectionItems((item) => item.category.includes("music video")) },
+		{ title: "Graphic Design", action: "Download / Buy", items: getSectionItems((item) => item.category.includes("graphics")) },
+		{ title: "Products Marketplace", action: "Buy / Sell", items: getSectionItems((item) => item.category.includes("product")) },
+	];
+
+	els.contentSections.innerHTML = sections
+		.map(
+			(section) => `
+				<article class="content-card">
+					<p class="content-card-title">${escapeHtml(section.title)}</p>
+					<p class="content-card-action">${escapeHtml(section.action)}</p>
+					<div class="content-card-list">${renderSectionPreview(section.items)}</div>
+				</article>
+			`
+		)
+		.join("");
+}
+
 function safeSetJson(key, data) {
 	try {
 		localStorage.setItem(key, JSON.stringify(data));
@@ -353,8 +455,13 @@ function normalizeMedia(rawMedia) {
 				creator,
 				category: normalizeCategory(item.category),
 				genre: normalizeGenre(item.genre),
+				action: normalizeAction(item.action, item.category),
 				views: cleanText(item.views || "0", 20),
 				palette: cleanText(item.palette || "linear-gradient(140deg, #1f71ff, #0d2c7f)", 120),
+				price: cleanText(item.price || "", 30),
+				seller: cleanText(item.seller || creator, CREATOR_MAX_LEN),
+				stockStatus: cleanText(item.stockStatus || "", 40),
+				productType: cleanText(item.productType || "", 40),
 				createdAt: Number(item.createdAt) || Date.now(),
 			};
 		})
@@ -380,7 +487,16 @@ function normalizeUploads(rawUploads) {
 				|| Date.now() - (typeof item.time === "string" && item.time.endsWith("h ago")
 					? Number(item.time.replace("h ago", "")) * 60 * 60 * 1000
 					: 0);
-			return { title, creator, genre: normalizeGenre(item.genre), createdAt };
+			return {
+				title,
+				creator,
+				genre: normalizeGenre(item.genre),
+				category: normalizeCategory(item.category || "music"),
+				action: normalizeAction(item.action, item.category || "music"),
+				price: cleanText(item.price || "", 30),
+				stockStatus: cleanText(item.stockStatus || "", 40),
+				createdAt,
+			};
 		})
 		.filter(Boolean)
 		.slice(0, MAX_UPLOADS);
@@ -759,10 +875,11 @@ function matchesFilters(item) {
 	}
 
 	const byChip = categoryMatches(state.selectedChip, item.category);
+	const byAction = state.selectedAction === "all" || item.action === state.selectedAction;
 	const q = cleanText(state.query, 120).toLowerCase();
-	const bySearch = !q || `${item.title} ${item.creator} ${item.category}`.toLowerCase().includes(q);
+	const bySearch = !q || `${item.title} ${item.creator} ${item.category} ${item.action}`.toLowerCase().includes(q);
 
-	return bySidebar && byChip && bySearch;
+	return bySidebar && byChip && byAction && bySearch;
 }
 
 function getFilteredMedia() {
@@ -822,12 +939,16 @@ function renderMedia() {
 				<article class="media-card">
 					<div class="media-art" style="background:${escapeHtml(item.palette)}">
 						<span class="tag">${escapeHtml(item.category)}</span>
+						<span class="tag action-tag">${escapeHtml(formatActionLabel(item.action))}</span>
 					</div>
 					<div class="media-info">
 						<p class="media-title">${escapeHtml(item.title)}</p>
 						<p class="meta">${escapeHtml(item.creator)} - ${escapeHtml(item.genre || "other")} - ${escapeHtml(item.views)} views</p>
+						${item.category.includes("product")
+		? `<p class="meta market-meta">Seller: ${escapeHtml(item.seller || item.creator)} • ${escapeHtml(item.stockStatus || "Status pending")} • ${escapeHtml(item.productType || "General product")} • ${escapeHtml(formatPrice(item.price))}</p>`
+		: ""}
 						<div class="card-actions">
-							<button data-action="play" data-id="${escapeHtml(item.id)}">Play</button>
+							<button data-action="play" data-id="${escapeHtml(item.id)}">${item.action === "download" ? "Download" : item.action === "buy" ? "Buy Now" : "Stream"}</button>
 							<button data-action="queue" data-id="${escapeHtml(item.id)}">Queue</button>
 						</div>
 					</div>
@@ -844,8 +965,16 @@ function renderMedia() {
 			}
 
 			if (btn.dataset.action === "play" && els.nowPlayingText) {
-				els.nowPlayingText.textContent = `Now playing: ${item.title} by ${item.creator}`;
-				showToast(`Playing ${item.title}`);
+				if (item.action === "buy") {
+					els.nowPlayingText.textContent = `Marketplace: ${item.title} by ${item.seller || item.creator}`;
+					showToast(`Opening offer for ${item.title}`);
+				} else if (item.action === "download") {
+					els.nowPlayingText.textContent = `Ready to download: ${item.title} by ${item.creator}`;
+					showToast(`Download prepared for ${item.title}`);
+				} else {
+					els.nowPlayingText.textContent = `Now playing: ${item.title} by ${item.creator}`;
+					showToast(`Playing ${item.title}`);
+				}
 			}
 
 			if (btn.dataset.action === "queue") {
@@ -871,7 +1000,8 @@ function renderUploads() {
 			(item) => `
 				<article class="upload-item">
 					<p>${escapeHtml(item.title)}</p>
-					<p class="creator">${escapeHtml(item.creator)} • ${escapeHtml(item.genre || "other")}</p>
+					<p class="creator">${escapeHtml(item.creator)} • ${escapeHtml(item.category || "music")} • ${escapeHtml(formatActionLabel(item.action || "stream"))}</p>
+					${item.action === "buy" ? `<p class="creator">Listing: ${escapeHtml(formatPrice(item.price))}${item.stockStatus ? ` • ${escapeHtml(item.stockStatus)}` : ""}</p>` : ""}
 					<p class="time">${escapeHtml(formatRelativeTime(item.createdAt))}</p>
 				</article>
 			`
@@ -1050,6 +1180,7 @@ function bindEvents() {
 		state.query = "";
 		state.selectedCategory = "all";
 		state.selectedChip = "all";
+		state.selectedAction = "all";
 		if (els.searchInput) {
 			els.searchInput.value = "";
 		}
@@ -1057,6 +1188,7 @@ function bindEvents() {
 			el.classList.toggle("active", el.dataset.section === "all");
 		});
 		renderChips();
+		renderActionFilters();
 		renderMedia();
 	});
 
@@ -1071,8 +1203,47 @@ function bindEvents() {
 		showToast("Upload dialog is not supported in this browser.");
 	};
 
+	const applyUploadCategoryPreset = () => {
+		if (!els.uploadForm) {
+			return;
+		}
+		const categoryField = els.uploadForm.querySelector("select[name='category']");
+		const accessField = els.uploadForm.querySelector("select[name='accessModel']");
+		if (!categoryField || !accessField) {
+			return;
+		}
+		const category = normalizeCategory(categoryField.value);
+		if (category.includes("product")) {
+			accessField.value = "buy";
+			if (els.uploadTypeHint) {
+				els.uploadTypeHint.textContent = "Marketplace listing: add product details to publish your selling slot.";
+			}
+			if (els.uploadProductFields) {
+				els.uploadProductFields.style.display = "grid";
+			}
+			return;
+		}
+		if (category.includes("graphics")) {
+			accessField.value = "download";
+			if (els.uploadTypeHint) {
+				els.uploadTypeHint.textContent = "Graphic design uploads are best for downloadable packs or services.";
+			}
+		} else if (category.includes("movie") || category.includes("series") || category.includes("music video")) {
+			accessField.value = "stream";
+			if (els.uploadTypeHint) {
+				els.uploadTypeHint.textContent = "Video publishing is configured for stream-first playback.";
+			}
+		} else if (els.uploadTypeHint) {
+			els.uploadTypeHint.textContent = "Music uploads default to stream-friendly publishing.";
+		}
+		if (els.uploadProductFields) {
+			els.uploadProductFields.style.display = "none";
+		}
+	};
+
 	addSafeListener(els.uploadOpen, "click", openUpload);
 	addSafeListener(els.createBtn, "click", openUpload);
+	addSafeListener(els.uploadForm ? els.uploadForm.querySelector("select[name='category']") : null, "change", applyUploadCategoryPreset);
 
 	addSafeListener(els.uploadMediaFiles, "change", () => {
 		if (!els.uploadMediaFiles || !els.uploadMediaFiles.files) {
@@ -1098,8 +1269,13 @@ function bindEvents() {
 		const creator = cleanText(formData.get("creator"), CREATOR_MAX_LEN);
 		const baseCategory = normalizeCategory(formData.get("category"));
 		const genre = normalizeGenre(formData.get("genre"));
+		const action = normalizeAction(formData.get("accessModel"), baseCategory);
 		const customCategory = normalizeCategory(formData.get("customCategory"));
 		const category = customCategory && customCategory !== "other" ? customCategory : baseCategory;
+		const price = cleanText(formData.get("price"), 30);
+		const seller = cleanText(formData.get("seller"), CREATOR_MAX_LEN) || creator;
+		const stockStatus = cleanText(formData.get("stockStatus"), 40);
+		const productType = cleanText(formData.get("productType"), 40);
 		const bulkRaw = String(formData.get("bulkTitles") || "").slice(0, 20000);
 		const bulkTitles = bulkRaw
 			.split(/\r?\n/)
@@ -1129,15 +1305,20 @@ function bindEvents() {
 		const start = Date.now();
 		uniqueTitles.forEach((uploadTitle, index) => {
 			const now = start + index;
-			state.latestUploads.unshift({ title: uploadTitle, creator, genre, createdAt: now });
+			state.latestUploads.unshift({ title: uploadTitle, creator, genre, category, action, price, stockStatus, createdAt: now });
 			state.mediaItems.unshift({
 				id: makeId(),
 				title: uploadTitle,
 				creator,
 				category,
 				genre,
+				action,
 				views: "0",
 				palette: "linear-gradient(140deg, #1f71ff, #0d2c7f)",
+				price,
+				seller,
+				stockStatus,
+				productType,
 				createdAt: now,
 			});
 			addedCount += 1;
@@ -1147,12 +1328,14 @@ function bindEvents() {
 
 		renderUploads();
 		renderMedia();
+		renderContentSections();
 		saveState();
 		if (els.uploadDialog && typeof els.uploadDialog.close === "function") {
 			els.uploadDialog.close();
 		}
 		els.uploadForm.reset();
 		clearPendingFilesQueue();
+		applyUploadCategoryPreset();
 		showToast(`Published ${addedCount} upload${addedCount === 1 ? "" : "s"}`);
 	});
 
@@ -1177,6 +1360,7 @@ function bindEvents() {
 			els.uploadForm.reset();
 		}
 		clearPendingFilesQueue();
+		applyUploadCategoryPreset();
 		showToast("Upload draft cleared");
 	});
 
@@ -1342,6 +1526,7 @@ function bindEvents() {
 		document.documentElement.style.setProperty("--accent-2", b);
 		showToast("Accent updated");
 	});
+	applyUploadCategoryPreset();
 }
 
 function init() {
@@ -1349,7 +1534,9 @@ function init() {
 	loadState();
 	renderStats();
 	renderChips();
+	renderActionFilters();
 	renderMedia();
+	renderContentSections();
 	renderUploads();
 	renderPromotions();
 	renderCreators();
@@ -1364,4 +1551,3 @@ function init() {
 }
 
 init();
-
